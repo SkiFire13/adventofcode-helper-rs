@@ -25,6 +25,10 @@ pub fn run_clap(year: i32, last_day: &str, f: impl FnOnce(Option<&str>)) {
                 .value_name("DAY")
                 .help("Download the input file for the day $DAY")
                 .takes_value(true)))
+        .subcommand(SubCommand::with_name("setup")
+            .about("Setup the template file for the day $DAY")
+            .arg(Arg::with_name("DAY")
+                .required(true)))
         .get_matches();
 
     match matches.subcommand() {
@@ -47,6 +51,19 @@ pub fn run_clap(year: i32, last_day: &str, f: impl FnOnce(Option<&str>)) {
                 }
             }
         },
+        ("setup", Some(setup_args)) => {
+            let day = setup_args.value_of("DAY").expect("Expected parameter");
+            let parsed_day = day.parse::<u32>().expect("Invalid parameter");
+            assert!(1 <= parsed_day && parsed_day <= 25, "Invalid parameter");
+
+            static TEMPLATE: &str = include_str!("../template.rs");
+            let mut day_file = std::fs::OpenOptions::new()
+                .create_new(true)
+                .write(true)
+                .open(format!("src/day{}.rs", day))
+                .expect("Failed to create template file");
+            write!(day_file, "{}", TEMPLATE).expect("Failed to write to template file");
+        }
         _ => f(matches.value_of("day")),
     }
 }
