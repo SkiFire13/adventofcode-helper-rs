@@ -1,1 +1,1 @@
-A template for Advent of Code.
+Helper crate for Advent of Code.
