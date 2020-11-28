@@ -1,22 +1,23 @@
 #[macro_export]
 macro_rules! main {
-    ($year:literal => $($d:ident),+ $(,)?) => {
+    ($year:literal => $($d:ident),* $(,)?) => {
         pub use aoc_helper::prelude;
         pub use aoc_helper::parse_display;
-        $( mod $d; )+
+        $( mod $d; )*
 
         fn main() {
-            const DEFAULT_DAY: &str = $crate::main!(@LATEST_DAY $( $d )+);
+            const DEFAULT_DAY: Option<&str> = $crate::main!(@LATEST_DAY $( $d )*);
 
-            aoc_helper::internal::run_clap($year, &DEFAULT_DAY[3..], |requested_day| {
+            aoc_helper::internal::run_clap($year, DEFAULT_DAY.map(|s| &s[3..]), |requested_day| {
                 let mut total = ::std::time::Duration::default();
-                $crate::main!(@MAIN $year requested_day total $( $d )+);
+                $crate::main!(@MAIN $year requested_day total $( $d )*);
                 println!("Took in total: {:.3?}", total);
                 println!();
             });
         }
     };
-    (@LATEST_DAY $d:ident) => { stringify!($d) };
+    (@LATEST_DAY) => { None };
+    (@LATEST_DAY $d:ident) => { Some(stringify!($d)) };
     (@LATEST_DAY $d:ident $($o:ident)+) => { $crate::main!(@LATEST_DAY $( $o )+) };
     (@MAIN $year:literal $requested_day:ident $total:ident) => {};
     (@MAIN $year:literal $requested_day:ident $total:ident $($d:ident)*) => {

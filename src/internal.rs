@@ -2,7 +2,7 @@ use clap::{App, Arg, SubCommand};
 use chrono::Datelike;
 use std::io::Write;
 
-pub fn run_clap(year: i32, last_day: &str, f: impl FnOnce(Option<&str>)) {
+pub fn run_clap(year: i32, last_day: Option<&str>, f: impl FnOnce(Option<&str>)) {
     let matches = App::new("My Super Program")
         .author("Giacomo Stevanato <giaco.stevanato@gmail.com>")
         .about(format!("My solutions to Advent of code {}", year).as_str())
@@ -11,7 +11,6 @@ pub fn run_clap(year: i32, last_day: &str, f: impl FnOnce(Option<&str>)) {
             .long("day")
             .value_name("DAY")
             .help("Run the solution for the day $DAY")
-            .default_value(last_day)
             .takes_value(true))
         .subcommand(SubCommand::with_name("session")
             .about("Sets the session token to use")
@@ -64,7 +63,7 @@ pub fn run_clap(year: i32, last_day: &str, f: impl FnOnce(Option<&str>)) {
                 .expect("Failed to create template file");
             write!(day_file, "{}", TEMPLATE).expect("Failed to write to template file");
         }
-        _ => f(matches.value_of("day")),
+        _ => f(matches.value_of("day").or(last_day)),
     }
 }
 
