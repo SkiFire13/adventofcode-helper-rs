@@ -10,8 +10,13 @@ macro_rules! main {
 
             aoc_helper::internal::run_clap($year, DEFAULT_DAY.map(|s| &s[3..]), |requested_day| {
                 let mut total = ::std::time::Duration::default();
-                $crate::main!(@MAIN $year requested_day total $( $d )*);
-                println!("Took in total: {:.3?}", total);
+                let mut found = false;
+                $crate::main!(@MAIN $year requested_day total found $( $d )*);
+                if found {
+                    println!("Took in total: {:.3?}", total);
+                } else {
+                    println!("No matching day was found")
+                }
                 println!();
             });
         }
@@ -19,10 +24,12 @@ macro_rules! main {
     (@LATEST_DAY) => { None };
     (@LATEST_DAY $d:ident) => { Some(stringify!($d)) };
     (@LATEST_DAY $d:ident $($o:ident)+) => { $crate::main!(@LATEST_DAY $( $o )+) };
-    (@MAIN $year:literal $requested_day:ident $total:ident) => {};
-    (@MAIN $year:literal $requested_day:ident $total:ident $($d:ident)*) => {
+    (@MAIN $year:literal $requested_day:ident $total:ident $found:ident) => {};
+    (@MAIN $year:literal $requested_day:ident $total:ident $found:ident $($d:ident)*) => {
         $(
             if $requested_day == Some(&stringify!($d)[3..]) || $requested_day == Some("all") {
+                found = true;
+                
                 const DAY: &str = stringify!($d);
                 println!("Day {:<2}", &DAY[3..]);
                 let input = aoc_helper::internal::get_input($year, &DAY[3..]);
