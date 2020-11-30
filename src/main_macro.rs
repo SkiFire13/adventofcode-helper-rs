@@ -28,7 +28,7 @@ macro_rules! main {
     (@MAIN $year:literal $requested_day:ident $total:ident $found:ident $($d:ident)*) => {
         $(
             if $requested_day == Some(&stringify!($d)[3..]) || $requested_day == Some("all") {
-                found = true;
+                $found = true;
                 
                 const DAY: &str = stringify!($d);
                 println!("Day {:<2}", &DAY[3..]);
