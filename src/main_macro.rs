@@ -24,7 +24,6 @@ macro_rules! main {
     (@LATEST_DAY) => { None };
     (@LATEST_DAY $d:ident) => { Some(stringify!($d)) };
     (@LATEST_DAY $d:ident $($o:ident)+) => { $crate::main!(@LATEST_DAY $( $o )+) };
-    (@MAIN $year:literal $requested_day:ident $total:ident $found:ident) => {};
     (@MAIN $year:literal $requested_day:ident $total:ident $found:ident $($d:ident)*) => {
         $(
             if $requested_day == Some(&stringify!($d)[3..]) || $requested_day == Some("all") {
