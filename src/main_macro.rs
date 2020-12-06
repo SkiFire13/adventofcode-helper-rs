@@ -6,7 +6,7 @@ macro_rules! main {
         $( mod $d; )*
 
         fn main() {
-			let days = [$( stringify!($d) )*];
+			let days: &[&str] = &[$( stringify!($d) )*];
 			let default_day = days.last().copied();
 
             aoc_helper::internal::run_clap($year, default_day.map(|s| &s[3..]), |requested_day| {
