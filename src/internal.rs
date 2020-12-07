@@ -2,7 +2,7 @@ use clap::{App, Arg, SubCommand};
 use chrono::Datelike;
 use std::io::Write;
 
-pub fn run_clap(year: i32, last_day: Option<&str>, f: impl FnOnce(Option<&str>)) {
+pub fn run_clap(year: i32, last_day: Option<&str>, src_dir: &str, f: impl FnOnce(Option<&str>)) {
     let matches = App::new("My Super Program")
         .author("Giacomo Stevanato <giaco.stevanato@gmail.com>")
         .about(format!("My solutions to Advent of code {}", year).as_str())
@@ -34,18 +34,18 @@ pub fn run_clap(year: i32, last_day: Option<&str>, f: impl FnOnce(Option<&str>))
         ("session", Some(session_args)) => set_session(session_args.value_of("SESSION").unwrap_or("")),
         ("input", Some(input_args)) => {
             match input_args.value_of("day") {
-                Some("all") => download_all_inputs(year),
+                Some("all") => download_all_inputs(year, src_dir),
                 Some(day) => {
                     let parsed_day = day.parse::<u32>().expect("Invalid parameter");
                     assert!(1 <= parsed_day && parsed_day <= 25, "Invalid parameter");
-                    get_input(year, day);
+                    get_input(year, day, src_dir);
                 },
                 None => {
                     let today = chrono::offset::Local::today();
                     if today.year() == year && today.month() == 12 {
-                        get_input(year, &format!("{}", today.day()));
+                        get_input(year, &format!("{}", today.day()), src_dir);
                     } else {
-                        download_all_inputs(year);
+                        download_all_inputs(year, src_dir);
                     };
                 }
             }
@@ -59,7 +59,7 @@ pub fn run_clap(year: i32, last_day: Option<&str>, f: impl FnOnce(Option<&str>))
             let mut day_file = std::fs::OpenOptions::new()
                 .create_new(true)
                 .write(true)
-                .open(format!("src/day{}.rs", day))
+                .open(format!("{}/src/day{}.rs", src_dir, day))
                 .expect("Failed to create template file");
             write!(day_file, "{}", TEMPLATE).expect("Failed to write to template file");
         }
@@ -67,13 +67,13 @@ pub fn run_clap(year: i32, last_day: Option<&str>, f: impl FnOnce(Option<&str>))
     }
 }
 
-pub fn get_input(year: i32, day: &str) -> String {
-    if let Ok(input) = std::fs::read_to_string(format!("./input/{}/day{}.txt", year, day)) {
+pub fn get_input(year: i32, day: &str, src_dir: &str) -> String {
+    if let Ok(input) = std::fs::read_to_string(format!("{}/input/{}/day{}.txt", src_dir, year, day)) {
         return input;
     }
 
     let agent = create_agent(get_session());
-    let input = download_input(&agent, year, day);
+    let input = download_input(&agent, year, day, src_dir);
 
     input
 }
@@ -108,7 +108,7 @@ fn create_agent(session: String) -> ureq::Agent {
     agent
 }
 
-fn download_input(agent: &ureq::Agent, year: i32, day: &str) -> String {
+fn download_input(agent: &ureq::Agent, year: i32, day: &str, src_dir: &str) -> String {
     print!("     - Downloading input for day {:<2}... ", day);
 
     let url = format!("https://adventofcode.com/{}/day/{}/input", year, day);
@@ -121,7 +121,7 @@ fn download_input(agent: &ureq::Agent, year: i32, day: &str) -> String {
         panic!("Invalid session cookie");
     }
 
-    let destination: std::path::PathBuf = format!("./input/{}/day{}.txt", year, day).into();
+    let destination: std::path::PathBuf = format!("{}/input/{}/day{}.txt", src_dir, year, day).into();
     if let Some(parent) = destination.parent() {
         std::fs::create_dir_all(parent).expect("Couldn't create parent directories");
     }
@@ -134,7 +134,7 @@ fn download_input(agent: &ureq::Agent, year: i32, day: &str) -> String {
     body
 }
 
-fn download_all_inputs(year: i32) {
+fn download_all_inputs(year: i32, src_dir: &str) {
     let agent = create_agent(get_session());
 
     let today = chrono::offset::Local::today();
@@ -153,10 +153,10 @@ fn download_all_inputs(year: i32) {
         let day = format!("{}", day);
         print!("Checking input for day {:<2} year {}.", day, year);
 
-        if let Ok(_) = std::fs::File::open(format!("./input/{}/day{}.txt", year, day)) {
+        if let Ok(_) = std::fs::File::open(format!("{}/input/{}/day{}.txt", src_dir, year, day)) {
             println!("     - Input already downloaded.");
         } else {
-            download_input(&agent, year, &day);
+            download_input(&agent, year, &day, src_dir);
         }
     }
 }

@@ -6,10 +6,12 @@ macro_rules! main {
         $( mod $d; )*
 
         fn main() {
+            let src_dir = env!("CARGO_MANIFEST_DIR");
+
 			let days: &[&str] = &[$( stringify!($d) ),*];
 			let default_day = days.last().copied();
 
-            aoc_helper::internal::run_clap($year, default_day.map(|s| &s[3..]), |requested_day| {
+            aoc_helper::internal::run_clap($year, default_day.map(|s| &s[3..]), src_dir, |requested_day| {
                 let mut total = ::std::time::Duration::default();
                 let mut found = false;
 				
