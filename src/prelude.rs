@@ -3,8 +3,7 @@
 pub use std::cell::{Cell, RefCell};
 pub use std::cmp::{max, min, Ordering, Reverse};
 pub use std::collections::{
-    BinaryHeap, BTreeMap, BTreeSet, HashMap, HashSet, VecDeque,
-    hash_map::Entry,
+    hash_map::Entry, BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, VecDeque,
 };
 pub use std::convert::{TryFrom, TryInto};
 pub use std::iter::{self, FromIterator};
@@ -19,7 +18,7 @@ pub use num::integer::{gcd_lcm, sqrt};
 pub use ord_by_key::ord_eq_by_key_selector as ord_by_key;
 pub use parse_display;
 pub use parse_display::{Display, FromStr};
-pub use regex::Regex;
 pub use rayon::prelude::*;
+pub use regex::Regex;
 
 pub use crate::helpers::grid::*;

@@ -9,7 +9,9 @@ impl<T> Grid<T> {
         self.vec.len() / self.width
     }
     pub fn get(&self, (x, y): (usize, usize)) -> Option<&T> {
-        if x >= self.width { return None; }
+        if x >= self.width {
+            return None;
+        }
         self.vec.get(x + self.width * y)
     }
 }
