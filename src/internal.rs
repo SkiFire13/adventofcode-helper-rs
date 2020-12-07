@@ -82,9 +82,7 @@ pub fn get_input(year: i32, day: &str, src_dir: &str) -> String {
     }
 
     let agent = create_agent(get_session());
-    let input = download_input(&agent, year, day, src_dir);
-
-    input
+    download_input(&agent, year, day, src_dir)
 }
 
 fn session_file() -> std::path::PathBuf {
@@ -164,7 +162,7 @@ fn download_all_inputs(year: i32, src_dir: &str) {
         let day = format!("{}", day);
         print!("Checking input for day {:<2} year {}.", day, year);
 
-        if let Ok(_) = std::fs::File::open(format!("{}/input/{}/day{}.txt", src_dir, year, day)) {
+        if std::fs::File::open(format!("{}/input/{}/day{}.txt", src_dir, year, day)).is_ok() {
             println!("     - Input already downloaded.");
         } else {
             download_input(&agent, year, &day, src_dir);
