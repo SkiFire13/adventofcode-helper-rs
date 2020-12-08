@@ -21,7 +21,7 @@ macro_rules! main {
 
 						const DAY: &str = stringify!($d);
 						println!("Day {:<2}", &DAY[3..]);
-						let input = aoc_helper::internal::get_input($year, &DAY[3..]);
+						let input = aoc_helper::internal::get_input($year, &DAY[3..], src_dir);
 
 						let now = std::time::Instant::now();
 						let input = $d::input_generator(input.trim_end());
