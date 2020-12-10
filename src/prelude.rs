@@ -11,14 +11,13 @@ pub use std::mem::{self, replace, swap, take};
 pub use std::rc::Rc;
 pub use std::sync::Arc;
 
-pub use arrayvec::ArrayVec;
-pub use derive_more::{Add, AddAssign, Constructor};
-pub use itertools::Itertools;
-pub use num::integer::{gcd_lcm, sqrt};
-pub use ord_by_key::ord_eq_by_key_selector as ord_by_key;
-pub use parse_display;
-pub use parse_display::{Display, FromStr};
-pub use rayon::prelude::*;
-pub use regex::Regex;
+pub use arrayvec::{self, ArrayVec};
+pub use derive_more::{self, Add, AddAssign, Constructor};
+pub use itertools::{self, Itertools};
+pub use num::{self, integer::{gcd_lcm, sqrt}};
+pub use ord_by_key::{self, ord_eq_by_key_selector as ord_by_key};
+pub use parse_display::{self, Display, FromStr};
+pub use rayon::{self, prelude::*};
+pub use regex::{self, Regex};
 
 pub use crate::helpers::grid::*;
