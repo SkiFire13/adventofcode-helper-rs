@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
 pub use std::cell::{Cell, RefCell};
-pub use std::cmp::{max, min, Ordering, Reverse};
+pub use std::cmp::{self, max, min, Ordering, Reverse};
 pub use std::collections::{
     hash_map::Entry, BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, VecDeque,
 };
