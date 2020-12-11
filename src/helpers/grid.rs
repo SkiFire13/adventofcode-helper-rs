@@ -5,6 +5,18 @@ pub struct Grid<T> {
 }
 
 impl<T> Grid<T> {
+    pub fn from_input_chars(input: &str, mut f: impl FnMut(char, usize, usize) -> T) -> Self {
+        Self {
+            vec: input
+                .lines()
+                .enumerate()
+                .flat_map(|(y, line)| line.chars().enumerate().map(move |(x, c)| (c, x, y)))
+                .map(move |(c, x, y)| f(c, x, y))
+                .collect(),
+            width: input.lines().next().unwrap().len(),
+        }
+    }
+
     pub fn height(&self) -> usize {
         self.vec.len() / self.width
     }
