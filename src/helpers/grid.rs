@@ -14,17 +14,48 @@ impl<T> Grid<T> {
         }
         self.vec.get(x + self.width * y)
     }
+    pub fn get_mut(&mut self, (x, y): (usize, usize)) -> Option<&mut T> {
+        if x >= self.width {
+            return None;
+        }
+        self.vec.get_mut(x + self.width * y)
+    }
+    pub fn iget(&self, (x, y): (isize, isize)) -> Option<&T> {
+        if x < 0 || y < 0 {
+            return None;
+        }
+        self.get((x as usize, y as usize))
+    }
+    pub fn iget_mut(&mut self, (x, y): (isize, isize)) -> Option<&mut T> {
+        if x < 0 || y < 0 {
+            return None;
+        }
+        self.get_mut((x as usize, y as usize))
+    }
 }
 
 impl<T> std::ops::Index<(usize, usize)> for Grid<T> {
     type Output = T;
     fn index(&self, (x, y): (usize, usize)) -> &Self::Output {
-        &self.vec[x + self.width * y]
+        self.get((x, y)).expect("Index out of bounds")
     }
 }
 
 impl<T> std::ops::IndexMut<(usize, usize)> for Grid<T> {
     fn index_mut(&mut self, (x, y): (usize, usize)) -> &mut Self::Output {
-        &mut self.vec[x + self.width * y]
+        self.get_mut((x, y)).expect("Index out of bounds")
+    }
+}
+
+impl<T> std::ops::Index<(isize, isize)> for Grid<T> {
+    type Output = T;
+    fn index(&self, (x, y): (isize, isize)) -> &Self::Output {
+        self.iget((x, y)).expect("Index out of bounds")
+    }
+}
+
+impl<T> std::ops::IndexMut<(isize, isize)> for Grid<T> {
+    fn index_mut(&mut self, (x, y): (isize, isize)) -> &mut Self::Output {
+        self.iget_mut((x, y)).expect("Index out of bounds")
     }
 }
