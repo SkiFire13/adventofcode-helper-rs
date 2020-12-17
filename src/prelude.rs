@@ -14,7 +14,7 @@ pub use std::sync::Arc;
 
 pub use arrayvec::{self, ArrayVec};
 pub use derive_more::{self, Add, AddAssign, Constructor};
-pub use fxhash::{self, FxHashMap};
+pub use fxhash::{self, FxHashMap, FxHashSet};
 pub use itertools::{self, Itertools};
 pub use num::{self, integer::{gcd_lcm, sqrt}};
 pub use ord_by_key::ord_eq_by_key_selector as ord_by_key;
