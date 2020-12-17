@@ -7,6 +7,7 @@ pub use std::collections::{
 };
 pub use std::convert::{TryFrom, TryInto};
 pub use std::iter::{self, FromIterator};
+pub use std::hash::{self, Hash};
 pub use std::mem::{self, replace, swap, take};
 pub use std::rc::Rc;
 pub use std::sync::Arc;
