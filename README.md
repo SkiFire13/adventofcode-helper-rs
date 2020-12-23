@@ -51,7 +51,7 @@ Find your session token for the AoC. You'll need to visic adventofcode.com open 
 Then run the following command:
 
 ```sh
-cargo run -d session $SESSION
+cargo run -- session $SESSION
 ```
 
 ### Running the solutions for the latest day
