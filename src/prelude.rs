@@ -23,3 +23,4 @@ pub use rayon::{self, prelude::*};
 pub use regex::{self, Regex};
 
 pub use crate::helpers::grid::*;
+pub use crate::helpers::array::ArrayExt as _;
