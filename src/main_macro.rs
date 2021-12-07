@@ -24,7 +24,8 @@ macro_rules! main {
 						let input = aoc_helper::internal::get_input($year, &DAY[3..], src_dir);
 
 						let now = std::time::Instant::now();
-						let input = $d::input_generator(input.trim_end());
+						let mut input = $d::input_generator(input.trim_end());
+                        let input = &mut input;
 						let elapsed = now.elapsed();
 						total += elapsed;
 						println!("     - Parsing input");
@@ -32,7 +33,7 @@ macro_rules! main {
 						println!();
 
 						let now = std::time::Instant::now();
-						let part1_solution = $d::part1(&input);
+						let part1_solution = $d::part1(input);
 						let elapsed = now.elapsed();
 						total += elapsed;
 						println!("     - Part 1: {}", part1_solution);
@@ -55,7 +56,7 @@ macro_rules! main {
     (@PART2 $input:ident $total:ident day25) => {};
     (@PART2 $input:ident $total:ident $d:ident) => {
         let now = std::time::Instant::now();
-        let part2_solution = $d::part2(&$input);
+        let part2_solution = $d::part2($input);
         let elapsed = now.elapsed();
         $total += elapsed;
         println!("     - Part 2: {}", part2_solution);
