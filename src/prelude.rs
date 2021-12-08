@@ -13,6 +13,7 @@ pub use std::rc::Rc;
 pub use std::sync::Arc;
 
 pub use arrayvec::{self, ArrayVec};
+pub use bitflags::bitflags;
 pub use derive_more::{self, Add, AddAssign, Constructor};
 pub use fxhash::{self, FxHashMap, FxHashSet};
 pub use itertools::{self, Itertools};
