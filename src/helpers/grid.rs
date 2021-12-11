@@ -44,6 +44,30 @@ impl<T> Grid<T> {
         }
         self.get_mut((x as usize, y as usize))
     }
+
+    pub fn plus_neighbours(&self, (x, y): (usize, usize)) -> impl Iterator<Item = (usize, usize)> {
+        let iter = [(0, -1), (-1, 0), (1, 0), (0, 1)]
+            .into_iter()
+            .map(move |(dx, dy)| (x as isize + dx, y as isize + dy));
+        self.ifilter_in_bounds(iter)
+    }
+
+    pub fn square_neighbours(&self, (x, y): (usize, usize)) -> impl Iterator<Item = (usize, usize)> {
+        let iter = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
+            .into_iter()
+            .map(move |(dx, dy)| (x as isize + dx, y as isize + dy));
+        self.ifilter_in_bounds(iter)
+    }
+
+    pub fn ifilter_in_bounds(
+        &self,
+        iter: impl Iterator<Item = (isize, isize)>,
+    ) -> impl Iterator<Item = (usize, usize)> {
+        let (width, height) = (self.width as isize, self.height() as isize);
+        iter
+            .filter(move |&(x, y)| 0 <= x && x < width && 0 <= y && y < height)
+            .map(|(x, y)| (x as usize, y as usize))
+    }
 }
 
 impl<T> std::ops::Index<(usize, usize)> for Grid<T> {
