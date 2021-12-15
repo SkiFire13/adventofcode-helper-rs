@@ -1,3 +1,5 @@
+use itertools::Itertools;
+
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Grid<T> {
     pub vec: Vec<T>,
@@ -90,6 +92,21 @@ impl<T> Grid<T> {
         let (width, height) = (self.width as isize, self.height() as isize);
         iter.filter(move |&(x, y)| 0 <= x && x < width && 0 <= y && y < height)
             .map(|(x, y)| (x as usize, y as usize))
+    }
+
+    pub fn map_ref<U>(&self, mut f: impl FnMut(&T, usize, usize) -> U) -> Grid<U> {
+        Grid {
+            vec: self
+                .vec
+                .iter()
+                .enumerate()
+                .map(|(idx, elm)| {
+                    let (x, y) = (idx % self.width, idx / self.width);
+                    f(elm, x, y)
+                })
+                .collect(),
+            width: self.width,
+        }
     }
 }
 
