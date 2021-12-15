@@ -1,6 +1,6 @@
 pub trait ArrayExt<T> {
     fn from_iter<I: IntoIterator<Item = T>>(iter: I) -> Self;
-} 
+}
 
 impl<T, const N: usize> ArrayExt<T> for [T; N] {
     fn from_iter<I: IntoIterator<Item = T>>(iter: I) -> Self {

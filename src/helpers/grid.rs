@@ -28,24 +28,28 @@ impl<T> Grid<T> {
     pub fn height(&self) -> usize {
         self.vec.len() / self.width
     }
+
     pub fn get(&self, (x, y): (usize, usize)) -> Option<&T> {
         if x >= self.width {
             return None;
         }
         self.vec.get(x + self.width * y)
     }
+
     pub fn get_mut(&mut self, (x, y): (usize, usize)) -> Option<&mut T> {
         if x >= self.width {
             return None;
         }
         self.vec.get_mut(x + self.width * y)
     }
+
     pub fn iget(&self, (x, y): (isize, isize)) -> Option<&T> {
         if x < 0 || y < 0 {
             return None;
         }
         self.get((x as usize, y as usize))
     }
+
     pub fn iget_mut(&mut self, (x, y): (isize, isize)) -> Option<&mut T> {
         if x < 0 || y < 0 {
             return None;
@@ -60,10 +64,22 @@ impl<T> Grid<T> {
         self.ifilter_in_bounds(iter)
     }
 
-    pub fn square_neighbours(&self, (x, y): (usize, usize)) -> impl Iterator<Item = (usize, usize)> {
-        let iter = [(-1, -1), (0, -1), (1, -1), (-1, 0), (1, 0), (-1, 1), (0, 1), (1, 1)]
-            .into_iter()
-            .map(move |(dx, dy)| (x as isize + dx, y as isize + dy));
+    pub fn square_neighbours(
+        &self,
+        (x, y): (usize, usize),
+    ) -> impl Iterator<Item = (usize, usize)> {
+        let iter = [
+            (-1, -1),
+            (0, -1),
+            (1, -1),
+            (-1, 0),
+            (1, 0),
+            (-1, 1),
+            (0, 1),
+            (1, 1),
+        ]
+        .into_iter()
+        .map(move |(dx, dy)| (x as isize + dx, y as isize + dy));
         self.ifilter_in_bounds(iter)
     }
 
@@ -72,8 +88,7 @@ impl<T> Grid<T> {
         iter: impl Iterator<Item = (isize, isize)>,
     ) -> impl Iterator<Item = (usize, usize)> {
         let (width, height) = (self.width as isize, self.height() as isize);
-        iter
-            .filter(move |&(x, y)| 0 <= x && x < width && 0 <= y && y < height)
+        iter.filter(move |&(x, y)| 0 <= x && x < width && 0 <= y && y < height)
             .map(|(x, y)| (x as usize, y as usize))
     }
 }
