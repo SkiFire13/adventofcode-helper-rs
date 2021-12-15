@@ -17,6 +17,14 @@ impl<T> Grid<T> {
         }
     }
 
+    pub fn h(&self) -> usize {
+        self.height()
+    }
+
+    pub fn w(&self) -> usize {
+        self.width
+    }
+
     pub fn height(&self) -> usize {
         self.vec.len() / self.width
     }
