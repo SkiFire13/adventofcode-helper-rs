@@ -16,7 +16,7 @@ pub use arrayvec::{self, ArrayVec};
 pub use bitflags::bitflags;
 pub use derive_more::{self, Add, AddAssign, Constructor};
 pub use fxhash::{self, FxHashMap, FxHashSet};
-pub use itertools::{self, Itertools};
+pub use itertools::{self, Either, Itertools};
 pub use num::{
     self,
     integer::{gcd_lcm, sqrt},
