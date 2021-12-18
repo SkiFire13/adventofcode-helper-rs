@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 
+pub use std::borrow::Cow;
 pub use std::cell::{Cell, RefCell};
 pub use std::cmp::{self, max, min, Ordering, Reverse};
 pub use std::collections::{
@@ -9,8 +10,8 @@ pub use std::convert::{TryFrom, TryInto};
 pub use std::hash::{self, Hash};
 pub use std::iter::{self, FromIterator};
 pub use std::mem::{self, replace, swap, take};
-pub use std::rc::Rc;
-pub use std::sync::Arc;
+pub use std::rc::{Rc, Weak};
+pub use std::sync::{Arc, Weak as AWeak};
 
 pub use arrayvec::{self, ArrayVec};
 pub use bitflags::bitflags;
