@@ -28,3 +28,4 @@ pub use regex::{self, Regex};
 
 pub use crate::helpers::array::ArrayExt as _;
 pub use crate::helpers::grid::*;
+pub use crate::helpers::eat::*;
