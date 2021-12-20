@@ -22,6 +22,7 @@ pub use num::{
     self,
     integer::{gcd_lcm, sqrt},
 };
+pub use once_cell::{self, sync::{Lazy, OnceCell}};
 pub use ord_by_key::ord_eq_by_key_selector as ord_by_key;
 pub use parse_display::{self, Display, FromStr};
 pub use rayon::{self, prelude::*};
