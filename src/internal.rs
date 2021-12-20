@@ -109,11 +109,18 @@ fn get_session() -> String {
 }
 
 fn create_agent(session: String) -> ureq::Agent {
-    let agent = ureq::agent();
     let mut session_cookie = ureq::Cookie::new("session", session);
     session_cookie.set_domain("adventofcode.com");
-    agent.set_cookie(session_cookie);
-    agent
+
+    let adventofcode_url =
+        url::Url::parse("adventofcode.com").expect("adventofcode.com is invalid");
+
+    let mut cookie_store = cookie_store::CookieStore::default();
+    cookie_store
+        .insert_raw(&session_cookie, &adventofcode_url)
+        .expect("Failed to set cookie");
+
+    ureq::AgentBuilder::new().cookie_store(cookie_store).build()
 }
 
 fn download_input(agent: &ureq::Agent, year: i32, day: &str, src_dir: &str) -> String {
@@ -123,6 +130,7 @@ fn download_input(agent: &ureq::Agent, year: i32, day: &str, src_dir: &str) -> S
     let body = agent
         .get(&url)
         .call()
+        .expect("Input request failed")
         .into_string()
         .expect("Input request failed");
 

@@ -1,20 +1,22 @@
 [package]
 name = "aoc-helper"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Giacomo Stevanato <giaco.stevanato@gmail.com>"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-ureq = { version = "1.5", features = ["cookies"] }
-directories = "3.0"
+ureq = { version = "2.3", features = ["cookies"] }
+cookie_store = "0.15"
+url = "2.2"
+directories = "4.0"
 chrono = "0.4"
 
 itertools = "0.10"
 regex = "1.5"
-parse-display = "0.4"
-arrayvec = "0.5"
+parse-display = "0.5"
+arrayvec = "0.7"
 ord_by_key = "0.1"
 clap = "2.34"
 rayon = "1.5"
