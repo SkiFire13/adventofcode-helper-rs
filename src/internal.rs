@@ -113,7 +113,7 @@ fn create_agent(session: String) -> ureq::Agent {
     session_cookie.set_domain("adventofcode.com");
 
     let adventofcode_url =
-        url::Url::parse("adventofcode.com").expect("adventofcode.com is invalid");
+        url::Url::parse("https://adventofcode.com").expect("adventofcode.com is invalid");
 
     let mut cookie_store = cookie_store::CookieStore::default();
     cookie_store
