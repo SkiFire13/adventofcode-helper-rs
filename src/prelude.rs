@@ -10,6 +10,7 @@ pub use std::convert::{TryFrom, TryInto};
 pub use std::hash::{self, Hash};
 pub use std::iter::{self, FromIterator};
 pub use std::mem::{self, forget, replace, swap, take};
+pub use std::ops::ControlFlow;
 pub use std::rc::{Rc, Weak};
 pub use std::sync::{Arc, Weak as AWeak};
 
