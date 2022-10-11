@@ -115,7 +115,11 @@ fn create_agent(session: String) -> ureq::Agent {
     let adventofcode_url =
         url::Url::parse("https://adventofcode.com").expect("adventofcode.com is invalid");
 
-    let mut cookie_store = cookie_store::CookieStore::default();
+    let mut cookie_store = Default::default();
+    // Hack to not depend on cookie_store
+    if false {
+        ureq::AgentBuilder::new().cookie_store(std::mem::take(&mut cookie_store));
+    }
     cookie_store
         .insert_raw(&session_cookie, &adventofcode_url)
         .expect("Failed to set cookie");
