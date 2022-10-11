@@ -1,5 +1,3 @@
-use itertools::Itertools;
-
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Grid<T> {
     pub vec: Vec<T>,
