@@ -23,7 +23,10 @@ pub use num::{
     self,
     integer::{gcd_lcm, sqrt},
 };
-pub use once_cell::{self, sync::{Lazy, OnceCell}};
+pub use once_cell::{
+    self,
+    sync::{Lazy, OnceCell},
+};
 pub use ord_by_key::ord_eq_by_key_selector as ord_by_key;
 pub use parking_lot::{self, Mutex, RwLock};
 pub use parse_display::{self, Display, FromStr};
@@ -31,5 +34,5 @@ pub use rayon::{self, prelude::*};
 pub use regex::{self, Regex};
 
 pub use crate::helpers::array::ArrayExt as _;
-pub use crate::helpers::grid::*;
 pub use crate::helpers::eat::*;
+pub use crate::helpers::grid::*;
