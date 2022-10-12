@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 
+pub use std::array;
 pub use std::borrow::Cow;
 pub use std::cell::{Cell, RefCell};
 pub use std::cmp::{self, max, min, Ordering, Reverse};
