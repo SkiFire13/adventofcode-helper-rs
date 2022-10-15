@@ -37,3 +37,4 @@ pub use regex::{self, Regex};
 pub use crate::helpers::array::{ArrayExt as _, ArrayFromIterExt as _};
 pub use crate::helpers::eat::*;
 pub use crate::helpers::grid::*;
+pub use crate::helpers::ocr::*;
