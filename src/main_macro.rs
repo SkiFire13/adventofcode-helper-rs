@@ -3,7 +3,10 @@ macro_rules! main {
     ($year:literal => $($d:ident),* $(,)?) => {
         pub use aoc_helper::prelude;
         pub use aoc_helper::parse_display;
-        $( mod $d; )*
+        $(
+            #[allow(clippy::ptr_arg)]
+            mod $d;
+        )*
 
         fn main() {
             let src_dir = env!("CARGO_MANIFEST_DIR");
