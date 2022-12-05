@@ -50,7 +50,7 @@ pub fn run_clap(year: i32, last_day: Option<&str>, src_dir: &str, f: impl FnOnce
                 get_input(year, day, src_dir);
             }
             None => {
-                let today = chrono::offset::Local::today();
+                let today = chrono::offset::Local::now();
                 if today.year() == year && today.month() == 12 {
                     get_input(year, &format!("{}", today.day()), src_dir);
                 } else {
@@ -158,7 +158,7 @@ fn download_input(agent: &ureq::Agent, year: i32, day: &str, src_dir: &str) -> S
 fn download_all_inputs(year: i32, src_dir: &str) {
     let agent = create_agent(get_session());
 
-    let today = chrono::offset::Local::today();
+    let today = chrono::offset::Local::now();
     let max_day = if today.year() == year {
         if today.month() == 12 {
             std::cmp::min(today.day(), 25)
