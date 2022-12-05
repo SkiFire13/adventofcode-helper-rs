@@ -39,3 +39,4 @@ pub use crate::helpers::eat::*;
 pub use crate::helpers::grid::*;
 pub use crate::helpers::ocr::*;
 pub use crate::helpers::par::ParFindChunkedExt as _;
+pub use crate::helpers::slice::SliceExt as _;
