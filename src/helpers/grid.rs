@@ -134,6 +134,10 @@ impl<T> Grid<T> {
         let (w, h) = (self.w(), self.h());
         (0..w).flat_map(move |x| (0..h).map(move |y| (x, y)))
     }
+
+    pub fn to_set(&self, f: impl FnMut(&T, usize, usize) -> bool) -> GridSet {
+        GridSet(self.map_ref(f))
+    }
 }
 
 impl<T> std::ops::Index<(usize, usize)> for Grid<T> {
@@ -159,5 +163,43 @@ impl<T> std::ops::Index<(isize, isize)> for Grid<T> {
 impl<T> std::ops::IndexMut<(isize, isize)> for Grid<T> {
     fn index_mut(&mut self, (x, y): (isize, isize)) -> &mut Self::Output {
         self.iget_mut((x, y)).expect("Index out of bounds")
+    }
+}
+
+pub struct GridSet(Grid<bool>);
+
+impl GridSet {
+    pub fn contains(&self, pos: (usize, usize)) -> bool {
+        self[pos]
+    }
+
+    pub fn insert(&mut self, pos: (usize, usize)) -> bool {
+        !std::mem::replace(&mut self[pos], true)
+    }
+
+    pub fn remove(&mut self, pos: (usize, usize)) -> bool {
+        std::mem::replace(&mut self[pos], false)
+    }
+
+    pub fn count(&self) -> usize {
+        self.iter_set().count()
+    }
+
+    pub fn iter_set(&self) -> impl Iterator<Item = (usize, usize)> + '_ {
+        self.iter().filter(|&(_, &set)| set).map(|(pos, _)| pos)
+    }
+}
+
+impl std::ops::Deref for GridSet {
+    type Target = Grid<bool>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for GridSet {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
     }
 }
