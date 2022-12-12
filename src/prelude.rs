@@ -38,6 +38,7 @@ pub use crate::helpers::array::{ArrayExt as _, ArrayFromIterExt as _};
 pub use crate::helpers::bfs::*;
 pub use crate::helpers::eat::*;
 pub use crate::helpers::grid::*;
+pub use crate::helpers::iter::IteratorExt as _;
 pub use crate::helpers::ocr::*;
 pub use crate::helpers::par::ParFindChunkedExt as _;
 pub use crate::helpers::slice::SliceExt as _;
