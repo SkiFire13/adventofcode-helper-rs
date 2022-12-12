@@ -125,6 +125,10 @@ impl<T> Grid<T> {
             })
     }
 
+    pub fn into_iter(self) -> impl Iterator<Item = ((usize, usize), T)> {
+        self.iter_by_row().zip(self.vec)
+    }
+
     pub fn iter_by_row(&self) -> impl Iterator<Item = (usize, usize)> {
         let (w, h) = (self.w(), self.h());
         (0..h).flat_map(move |y| (0..w).map(move |x| (x, y)))
