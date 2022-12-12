@@ -106,6 +106,34 @@ impl<T> Grid<T> {
             width: self.width,
         }
     }
+
+    pub fn iter(&self) -> impl Iterator<Item = ((usize, usize), &T)> {
+        self.vec
+            .chunks_exact(self.width)
+            .enumerate()
+            .flat_map(|(y, row)| row.iter().enumerate().map(move |(x, val)| ((x, y), val)))
+    }
+
+    pub fn iter_mut(&mut self) -> impl Iterator<Item = ((usize, usize), &mut T)> {
+        self.vec
+            .chunks_exact_mut(self.width)
+            .enumerate()
+            .flat_map(|(y, row)| {
+                row.iter_mut()
+                    .enumerate()
+                    .map(move |(x, val)| ((x, y), val))
+            })
+    }
+
+    pub fn iter_by_row(&self) -> impl Iterator<Item = (usize, usize)> {
+        let (w, h) = (self.w(), self.h());
+        (0..h).flat_map(move |y| (0..w).map(move |x| (x, y)))
+    }
+
+    pub fn iter_by_col(&self) -> impl Iterator<Item = (usize, usize)> {
+        let (w, h) = (self.w(), self.h());
+        (0..w).flat_map(move |x| (0..h).map(move |y| (x, y)))
+    }
 }
 
 impl<T> std::ops::Index<(usize, usize)> for Grid<T> {
