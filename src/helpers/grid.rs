@@ -168,6 +168,12 @@ impl<T> Grid<T> {
     }
 }
 
+impl Grid<bool> {
+    pub fn into_set(self) -> GridSet {
+        GridSet(self)
+    }
+}
+
 impl<T> std::ops::Index<(usize, usize)> for Grid<T> {
     type Output = T;
     fn index(&self, (x, y): (usize, usize)) -> &Self::Output {
