@@ -177,27 +177,55 @@ impl Grid<bool> {
 impl<T> std::ops::Index<(usize, usize)> for Grid<T> {
     type Output = T;
     fn index(&self, (x, y): (usize, usize)) -> &Self::Output {
-        self.get((x, y)).expect("Index out of bounds")
+        let (w, h) = (self.w(), self.h());
+        self.get((x, y))
+            .unwrap_or_else(|| index_out_of_bounds(w, h, x as isize, y as isize))
     }
 }
 
 impl<T> std::ops::IndexMut<(usize, usize)> for Grid<T> {
     fn index_mut(&mut self, (x, y): (usize, usize)) -> &mut Self::Output {
-        self.get_mut((x, y)).expect("Index out of bounds")
+        let (w, h) = (self.w(), self.h());
+        self.get_mut((x, y))
+            .unwrap_or_else(|| index_out_of_bounds(w, h, x as isize, y as isize))
     }
 }
 
 impl<T> std::ops::Index<(isize, isize)> for Grid<T> {
     type Output = T;
     fn index(&self, (x, y): (isize, isize)) -> &Self::Output {
-        self.iget((x, y)).expect("Index out of bounds")
+        let (w, h) = (self.w(), self.h());
+        self.iget((x, y))
+            .unwrap_or_else(|| index_out_of_bounds(w, h, x, y))
     }
 }
 
 impl<T> std::ops::IndexMut<(isize, isize)> for Grid<T> {
     fn index_mut(&mut self, (x, y): (isize, isize)) -> &mut Self::Output {
-        self.iget_mut((x, y)).expect("Index out of bounds")
+        let (w, h) = (self.w(), self.h());
+        self.iget_mut((x, y))
+            .unwrap_or_else(|| index_out_of_bounds(w, h, x, y))
     }
+}
+
+#[cold]
+fn index_out_of_bounds(w: usize, h: usize, x: isize, y: isize) -> ! {
+    let (w, h) = (w as isize, h as isize);
+
+    if x >= w {
+        panic!("Index out of bounds: the width was {w} but x was {x}");
+    }
+    if y >= h {
+        panic!("Index out of bounds: the height was {h} but y was {y}");
+    }
+    if x < 0 {
+        panic!("Index out of bounds: x is {x} which is negative");
+    }
+    if y < 0 {
+        panic!("Index out of bounds: y is {y} which is negative");
+    }
+
+    unreachable!();
 }
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
