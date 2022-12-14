@@ -200,6 +200,7 @@ impl<T> std::ops::IndexMut<(isize, isize)> for Grid<T> {
     }
 }
 
+#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct GridSet(Grid<bool>);
 
 impl GridSet {
