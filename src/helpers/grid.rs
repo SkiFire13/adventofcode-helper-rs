@@ -5,6 +5,30 @@ pub struct Grid<T> {
 }
 
 impl<T> Grid<T> {
+    pub fn new() -> Self {
+        Self {
+            vec: Vec::new(),
+            width: 0,
+        }
+    }
+
+    pub fn with_dimensions(width: usize, height: usize) -> Self
+    where
+        T: Default,
+    {
+        Self::with_dimensions_init(width, height, |_, _| T::default())
+    }
+
+    pub fn with_dimensions_init<I>(width: usize, height: usize, mut init: I) -> Self
+    where
+        I: FnMut(usize, usize) -> T,
+    {
+        let vec = itertools::iproduct!(0..width, 0..height)
+            .map(|(x, y)| init(x, y))
+            .collect();
+        Self { vec, width }
+    }
+
     pub fn from_input_chars(input: &str, mut f: impl FnMut(char, usize, usize) -> T) -> Self {
         Self {
             vec: input
