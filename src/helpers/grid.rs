@@ -236,6 +236,10 @@ impl GridSet {
         self[pos]
     }
 
+    pub fn icontains(&self, pos: (isize, isize)) -> bool {
+        self[pos]
+    }
+
     pub fn insert(&mut self, pos: (usize, usize)) -> bool {
         !std::mem::replace(&mut self[pos], true)
     }
