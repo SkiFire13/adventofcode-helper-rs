@@ -25,8 +25,8 @@ impl<T> Grid3D<T> {
     where
         I: FnMut(usize, usize, usize) -> T,
     {
-        let vec = itertools::iproduct!(0..width, 0..height, 0..depth)
-            .map(|(x, y, z)| init(x, y, z))
+        let vec = itertools::iproduct!(0..depth, 0..height, 0..width)
+            .map(|(z, y, x)| init(x, y, z))
             .collect();
         Self { vec, width, height }
     }

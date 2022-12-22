@@ -23,8 +23,8 @@ impl<T> Grid<T> {
     where
         I: FnMut(usize, usize) -> T,
     {
-        let vec = itertools::iproduct!(0..width, 0..height)
-            .map(|(x, y)| init(x, y))
+        let vec = itertools::iproduct!(0..height, 0..width)
+            .map(|(y, x)| init(x, y))
             .collect();
         Self { vec, width }
     }
