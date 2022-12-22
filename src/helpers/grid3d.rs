@@ -133,39 +133,52 @@ impl Grid3D<bool> {
 
 impl<T> std::ops::Index<(usize, usize, usize)> for Grid3D<T> {
     type Output = T;
+    #[track_caller]
     fn index(&self, (x, y, z): (usize, usize, usize)) -> &Self::Output {
         let (w, h, d) = (self.w(), self.h(), self.d());
-        self.get((x, y, z))
-            .unwrap_or_else(|| index_out_of_bounds(w, h, d, x as isize, y as isize, z as isize))
+        match self.get((x, y, z)) {
+            Some(value) => value,
+            None => index_out_of_bounds(w, h, d, x as isize, y as isize, z as isize),
+        }
     }
 }
 
 impl<T> std::ops::IndexMut<(usize, usize, usize)> for Grid3D<T> {
+    #[track_caller]
     fn index_mut(&mut self, (x, y, z): (usize, usize, usize)) -> &mut Self::Output {
         let (w, h, d) = (self.w(), self.h(), self.d());
-        self.get_mut((x, y, z))
-            .unwrap_or_else(|| index_out_of_bounds(w, h, d, x as isize, y as isize, z as isize))
+        match self.get_mut((x, y, z)) {
+            Some(value) => value,
+            None => index_out_of_bounds(w, h, d, x as isize, y as isize, z as isize),
+        }
     }
 }
 
 impl<T> std::ops::Index<(isize, isize, isize)> for Grid3D<T> {
     type Output = T;
+    #[track_caller]
     fn index(&self, (x, y, z): (isize, isize, isize)) -> &Self::Output {
         let (w, h, d) = (self.w(), self.h(), self.d());
-        self.iget((x, y, z))
-            .unwrap_or_else(|| index_out_of_bounds(w, h, d, x, y, z))
+        match self.iget((x, y, z)) {
+            Some(value) => value,
+            None => index_out_of_bounds(w, h, d, x, y, z),
+        }
     }
 }
 
 impl<T> std::ops::IndexMut<(isize, isize, isize)> for Grid3D<T> {
+    #[track_caller]
     fn index_mut(&mut self, (x, y, z): (isize, isize, isize)) -> &mut Self::Output {
         let (w, h, d) = (self.w(), self.h(), self.d());
-        self.iget_mut((x, y, z))
-            .unwrap_or_else(|| index_out_of_bounds(w, h, d, x, y, z))
+        match self.iget_mut((x, y, z)) {
+            Some(value) => value,
+            None => index_out_of_bounds(w, h, d, x, y, z),
+        }
     }
 }
 
 #[cold]
+#[track_caller]
 fn index_out_of_bounds(w: usize, h: usize, d: usize, x: isize, y: isize, z: isize) -> ! {
     let (w, h, d) = (w as isize, h as isize, d as isize);
 
@@ -195,18 +208,22 @@ fn index_out_of_bounds(w: usize, h: usize, d: usize, x: isize, y: isize, z: isiz
 pub struct GridSet3D(Grid3D<bool>);
 
 impl GridSet3D {
+    #[track_caller]
     pub fn contains(&self, pos: (usize, usize, usize)) -> bool {
         self[pos]
     }
 
+    #[track_caller]
     pub fn icontains(&self, pos: (isize, isize, isize)) -> bool {
         self[pos]
     }
 
+    #[track_caller]
     pub fn insert(&mut self, pos: (usize, usize, usize)) -> bool {
         !std::mem::replace(&mut self[pos], true)
     }
 
+    #[track_caller]
     pub fn remove(&mut self, pos: (usize, usize, usize)) -> bool {
         std::mem::replace(&mut self[pos], false)
     }

@@ -176,39 +176,51 @@ impl Grid<bool> {
 
 impl<T> std::ops::Index<(usize, usize)> for Grid<T> {
     type Output = T;
+    #[track_caller]
     fn index(&self, (x, y): (usize, usize)) -> &Self::Output {
         let (w, h) = (self.w(), self.h());
-        self.get((x, y))
-            .unwrap_or_else(|| index_out_of_bounds(w, h, x as isize, y as isize))
+        match self.get((x, y)) {
+            Some(value) => value,
+            None => index_out_of_bounds(w, h, x as isize, y as isize),
+        }
     }
 }
 
 impl<T> std::ops::IndexMut<(usize, usize)> for Grid<T> {
     fn index_mut(&mut self, (x, y): (usize, usize)) -> &mut Self::Output {
         let (w, h) = (self.w(), self.h());
-        self.get_mut((x, y))
-            .unwrap_or_else(|| index_out_of_bounds(w, h, x as isize, y as isize))
+        match self.get_mut((x, y)) {
+            Some(value) => value,
+            None => index_out_of_bounds(w, h, x as isize, y as isize),
+        }
     }
 }
 
 impl<T> std::ops::Index<(isize, isize)> for Grid<T> {
     type Output = T;
+    #[track_caller]
     fn index(&self, (x, y): (isize, isize)) -> &Self::Output {
         let (w, h) = (self.w(), self.h());
-        self.iget((x, y))
-            .unwrap_or_else(|| index_out_of_bounds(w, h, x, y))
+        match self.iget((x, y)) {
+            Some(value) => value,
+            None => index_out_of_bounds(w, h, x, y),
+        }
     }
 }
 
 impl<T> std::ops::IndexMut<(isize, isize)> for Grid<T> {
+    #[track_caller]
     fn index_mut(&mut self, (x, y): (isize, isize)) -> &mut Self::Output {
         let (w, h) = (self.w(), self.h());
-        self.iget_mut((x, y))
-            .unwrap_or_else(|| index_out_of_bounds(w, h, x, y))
+        match self.iget_mut((x, y)) {
+            Some(value) => value,
+            None => index_out_of_bounds(w, h, x, y),
+        }
     }
 }
 
 #[cold]
+#[track_caller]
 fn index_out_of_bounds(w: usize, h: usize, x: isize, y: isize) -> ! {
     let (w, h) = (w as isize, h as isize);
 
@@ -232,18 +244,22 @@ fn index_out_of_bounds(w: usize, h: usize, x: isize, y: isize) -> ! {
 pub struct GridSet(Grid<bool>);
 
 impl GridSet {
+    #[track_caller]
     pub fn contains(&self, pos: (usize, usize)) -> bool {
         self[pos]
     }
 
+    #[track_caller]
     pub fn icontains(&self, pos: (isize, isize)) -> bool {
         self[pos]
     }
 
+    #[track_caller]
     pub fn insert(&mut self, pos: (usize, usize)) -> bool {
         !std::mem::replace(&mut self[pos], true)
     }
 
+    #[track_caller]
     pub fn remove(&mut self, pos: (usize, usize)) -> bool {
         std::mem::replace(&mut self[pos], false)
     }
