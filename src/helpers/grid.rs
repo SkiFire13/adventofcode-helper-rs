@@ -23,20 +23,22 @@ impl<T> Grid<T> {
     where
         I: FnMut(usize, usize) -> T,
     {
-        let vec = itertools::iproduct!(0..height, 0..width)
-            .map(|(y, x)| init(x, y))
-            .collect();
+        let mut vec = Vec::with_capacity(width * height);
+        vec.extend(itertools::iproduct!(0..height, 0..width).map(|(y, x)| init(x, y)));
         Self { vec, width }
     }
 
     pub fn from_input_chars(input: &str, mut f: impl FnMut(char, usize, usize) -> T) -> Self {
-        Self {
-            vec: input
+        let mut vec = Vec::with_capacity(input.len());
+        vec.extend(
+            input
                 .lines()
                 .enumerate()
                 .flat_map(|(y, line)| line.chars().enumerate().map(move |(x, c)| (c, x, y)))
-                .map(move |(c, x, y)| f(c, x, y))
-                .collect(),
+                .map(move |(c, x, y)| f(c, x, y)),
+        );
+        Self {
+            vec,
             width: input.lines().next().unwrap().len(),
         }
     }
