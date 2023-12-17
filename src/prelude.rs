@@ -15,6 +15,7 @@ pub use std::ops::ControlFlow;
 pub use std::rc::{Rc, Weak};
 pub use std::sync::{Arc, Weak as AWeak};
 
+pub use ::bitvec::{self, array::BitArray, bitarr, bitbox, bitvec, boxed::BitBox, vec::BitVec};
 pub use arrayvec::{self, ArrayVec};
 pub use bitflags::bitflags;
 pub use derive_more::{self, Add, AddAssign, Constructor};
