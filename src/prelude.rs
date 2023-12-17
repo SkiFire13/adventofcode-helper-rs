@@ -15,25 +15,25 @@ pub use std::ops::ControlFlow;
 pub use std::rc::{Rc, Weak};
 pub use std::sync::{Arc, Weak as AWeak};
 
+pub use ::arrayvec::{self, ArrayVec};
+pub use ::bitflags::bitflags;
 pub use ::bitvec::{self, array::BitArray, bitarr, bitbox, bitvec, boxed::BitBox, vec::BitVec};
-pub use arrayvec::{self, ArrayVec};
-pub use bitflags::bitflags;
-pub use derive_more::{self, Add, AddAssign, Constructor};
-pub use fxhash::{self, FxHashMap, FxHashSet};
-pub use itertools::{self, Either, Itertools};
-pub use num::{
+pub use ::derive_more::{self, Add, AddAssign, Constructor};
+pub use ::fxhash::{self, FxHashMap, FxHashSet};
+pub use ::itertools::{self, Either, Itertools};
+pub use ::num::{
     self,
     integer::{gcd_lcm, sqrt},
 };
-pub use once_cell::{
+pub use ::once_cell::{
     self,
     sync::{Lazy, OnceCell},
 };
-pub use ord_by_key::ord_eq_by_key_selector as ord_by_key;
-pub use parking_lot::{self, Mutex, RwLock};
-pub use parse_display::{self, Display, FromStr};
-pub use rayon::{self, prelude::*};
-pub use regex::{self, Regex};
+pub use ::ord_by_key::ord_eq_by_key_selector as ord_by_key;
+pub use ::parking_lot::{self, Mutex, RwLock};
+pub use ::parse_display::{self, Display, FromStr};
+pub use ::rayon::{self, prelude::*};
+pub use ::regex::{self, Regex};
 
 pub use crate::helpers::array::{ArrayExt as _, ArrayFromIterExt as _};
 pub use crate::helpers::bfs::*;
