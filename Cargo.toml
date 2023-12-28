@@ -13,6 +13,7 @@ directories = "4.0"
 chrono = "0.4"
 clap = "2.34"
 
+indexmap = { version = "2.1", features = ["rayon"] }
 itertools = "0.12"
 regex = "1.5"
 parse-display = "0.6"

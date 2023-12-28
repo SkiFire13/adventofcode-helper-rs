@@ -20,6 +20,7 @@ pub use ::bitflags::bitflags;
 pub use ::bitvec::{self, array::BitArray, bitarr, bitbox, bitvec, boxed::BitBox, vec::BitVec};
 pub use ::derive_more::{self, Add, AddAssign, Constructor};
 pub use ::fxhash::{self, FxHashMap, FxHashSet};
+pub use ::indexmap::{self, IndexMap, IndexSet};
 pub use ::itertools::{self, Either, Itertools};
 pub use ::num::{
     self,
@@ -44,3 +45,6 @@ pub use crate::helpers::iter::IteratorExt as _;
 pub use crate::helpers::ocr::*;
 pub use crate::helpers::par::ParFindChunkedExt as _;
 pub use crate::helpers::slice::SliceExt as _;
+
+pub type FxIndexMap<K, V> = IndexMap<K, V, fxhash::FxBuildHasher>;
+pub type FxIndexSet<T> = IndexSet<T, fxhash::FxBuildHasher>;
