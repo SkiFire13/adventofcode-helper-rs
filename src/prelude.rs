@@ -20,7 +20,7 @@ pub use ::bitflags::bitflags;
 pub use ::bitvec::{self, array::BitArray, bitarr, bitbox, bitvec, boxed::BitBox, vec::BitVec};
 pub use ::derive_more::{self, Add, AddAssign, Constructor};
 pub use ::indexmap::{self, IndexMap, IndexSet};
-pub use ::itertools::{self, Either, Itertools};
+pub use ::itertools::{self, chain as ichain, iproduct, izip, Either, Itertools};
 pub use ::num::{
     self,
     integer::{gcd_lcm, sqrt},
