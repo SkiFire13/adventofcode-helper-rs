@@ -27,7 +27,7 @@ macro_rules! main {
 						let input = aoc_helper::internal::get_input($year, &DAY[3..], src_dir);
 
 						let now = std::time::Instant::now();
-						let mut input = $d::input_generator(input.trim_end());
+						let mut input = $d::input_generator(&input);
                         let input = &mut input;
 						let elapsed = now.elapsed();
 						total += elapsed;
